@@ -50,7 +50,7 @@ class LoginForm extends Component {
                     <input type="submit" value="Login" />
                     <div className="message">
                         { isLoginPending && <div>Please wait...</div> }
-                        { isLoginSuccess && <div>Success.</div> }
+                        { isLoginSuccess && <div>Success. redirect to employees table after this step and set isLoggedIn flag</div> }
                         { loginError && <div>{loginError.message}</div> }
                     </div>
                 </form>
