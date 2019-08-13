@@ -9,7 +9,10 @@ class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            account: {},
+            account: {
+                email: '',
+                password:''
+            },
             errors: {}
         };
         this.onSubmit = this.onSubmit.bind(this);
@@ -20,12 +23,12 @@ class LoginForm extends Component {
         password: joi.string().required().label('Password')
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         const account = { ...this.state.account };
         account[e.currentTarget.name] = e.currentTarget.value;
         this.setState({account});
     }
-
+    
     render() {
         let {account, errors} = this.state;
         let {email, password} = account;
@@ -36,13 +39,13 @@ class LoginForm extends Component {
                     <div className="form-group-collection">
                     <div className="form-group">
                         <label>Email:</label>
-                        <input type="email" onChange={this.handleChange.bind(this)} name="email" value={email} className="form-conrol"/>
+                        <input type="email" onChange={this.handleChange} name="email" value={email} className="form-conrol"/>
                         {errors && errors.username && <label>{errors.username}</label>}
                     </div>
 
                     <div className="form-group">
                         <label>Password:</label>
-                        <input type="password" onChange={this.handleChange.bind(this)} name="password" value={password} className="form-conrol"/>
+                        <input type="password" onChange={this.handleChange} name="password" value={password} className="form-conrol"/>
                         {errors && errors.password && <label>{errors.password}</label>}
                     </div>
                     </div>
@@ -50,7 +53,7 @@ class LoginForm extends Component {
                     <input type="submit" value="Login" />
                     <div className="message">
                         { isLoginPending && <div>Please wait...</div> }
-                        { isLoginSuccess && <div>Success. redirect to employees table after this step and set isLoggedIn flag</div> }
+                        { isLoginSuccess && this.props.history.push('/home') }
                         { loginError && <div>{loginError.message}</div> }
                     </div>
                 </form>
