@@ -40,7 +40,7 @@ class LoginForm extends Component {
                     <div className="form-group">
                         <label>Email:</label>
                         <input type="email" onChange={this.handleChange} name="email" value={email} className="form-conrol"/>
-                        {errors && errors.username && <label>{errors.username}</label>}
+                        {errors && errors.email && <label>{errors.email}</label>}
                     </div>
 
                     <div className="form-group">
@@ -74,7 +74,7 @@ class LoginForm extends Component {
     onSubmit(e) {
         e.preventDefault();
         const errors = this.validate();
-        // this.setState({ errors });
+        this.setState({ errors });
         if (errors) return;
         let { email, password } = this.state.account;
         this.props.login(email, password);
