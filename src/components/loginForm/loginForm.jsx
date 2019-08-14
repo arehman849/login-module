@@ -19,7 +19,7 @@ class LoginForm extends Component {
     }
 
     schema = {
-        email: joi.string().required().label('Username'),
+        email: joi.string().required().label('Email'),
         password: joi.string().required().label('Password')
     }
 
@@ -27,6 +27,12 @@ class LoginForm extends Component {
         const account = { ...this.state.account };
         account[e.currentTarget.name] = e.currentTarget.value;
         this.setState({account});
+    }
+
+    clearValidation = (e) => {
+        let errors = this.state.errors;
+        errors[e.currentTarget.name] = '';
+        this.setState({errors});
     }
     
     render() {
@@ -39,13 +45,13 @@ class LoginForm extends Component {
                     <div className="form-group-collection">
                     <div className="form-group">
                         <label>Email:</label>
-                        <input type="email" onChange={this.handleChange} name="email" value={email} className="form-conrol"/>
+                        <input type="email" onFocus={this.clearValidation} onChange={this.handleChange} name="email" value={email} className="form-conrol"/>
                         {errors && errors.email && <label>{errors.email}</label>}
                     </div>
 
                     <div className="form-group">
                         <label>Password:</label>
-                        <input type="password" onChange={this.handleChange} name="password" value={password} className="form-conrol"/>
+                        <input type="password" onFocus={this.clearValidation} onChange={this.handleChange} name="password" value={password} className="form-conrol"/>
                         {errors && errors.password && <label>{errors.password}</label>}
                     </div>
                     </div>
@@ -74,6 +80,7 @@ class LoginForm extends Component {
     onSubmit(e) {
         e.preventDefault();
         const errors = this.validate();
+        console.log(errors);
         this.setState({ errors });
         if (errors) return;
         let { email, password } = this.state.account;
