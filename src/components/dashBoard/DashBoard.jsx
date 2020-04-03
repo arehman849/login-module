@@ -4,13 +4,6 @@ import { connect } from 'react-redux';
 import { getDashboardData } from '../redux/reducer';
 
 class DashBoard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: []
-        }
-    }
-
     componentDidMount() {
         this.props.getDashboardData();
     }
