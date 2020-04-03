@@ -1,7 +1,8 @@
 import axios from 'axios';
 const LOGIN_PENDING = "LOGIN_PENDING",
       LOGIN_SUCCESS = "LOGIN_SUCCESS",
-      LOGIN_ERROR = "LOGIN_ERROR";
+      LOGIN_ERROR = "LOGIN_ERROR",
+      DATA_LOADED = "DATA_LOADED";
 
 export function login(email, password) {
     return dispatch => {
@@ -21,7 +22,7 @@ export function login(email, password) {
 }
 
 function callLoginApi(email, password, callback) {
-    axios.get('http://localhost:3000/loginData.json').then(result => {
+    axios.get('./loginData.json').then(result => {
         let {data} = result;
         if (email === data.username && password === data.password) {
             return callback(null);
@@ -55,12 +56,27 @@ function setLoginError(loginError) {
     }
 }
 
+export function getDashboardData() {
+    return dispatch => {
+        axios.get('./employeeData.json').then(result => {
+            dispatch({
+                type: DATA_LOADED,
+                data: result.data.user
+            })
+        }).catch(e => {
+            // return callback(new Error('something went wrong please ry again later'));
+            console.log(e);
+        })
+    }
+}
+
 
 
 export default function reducer(state = {
     isLoginSuccess: false,
     isLoginPending: false,
-    loginError: null
+    loginError: null,
+    data: []
     }, action) {
     switch (action.type) {
         case LOGIN_PENDING:
@@ -77,6 +93,10 @@ export default function reducer(state = {
         return Object.assign({}, state, {
             loginError: action.loginError
         });
+        case DATA_LOADED:
+            return Object.assign({}, state, {
+                data: action.data
+            })
 
         default:
         return state;

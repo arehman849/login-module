@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './employees.css';
-import axios from 'axios';
+import './dashBoard.css';
+import { connect } from 'react-redux';
+import { getDashboardData } from '../redux/reducer';
 
-class Employees extends Component {
+class DashBoard extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,12 +12,7 @@ class Employees extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3000/employeeData.json').then(result => {
-            this.setState({data: result.data.user});            
-        }).catch(e => {
-            // return callback(new Error('something went wrong please ry again later'));
-            console.log(e);
-        })
+        this.props.getDashboardData();
     }
 
     generateTable(data) {
@@ -48,7 +44,7 @@ class Employees extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.generateTable(this.state.data)}
+                        {this.props.dashboardData && this.generateTable(this.props.dashboardData)}
                     </tbody>
                 </table>
                
@@ -57,4 +53,16 @@ class Employees extends Component {
     }
 }
 
-export default Employees;
+const mapStateToProps = (state) => {
+    return {
+      dashboardData: state.data,
+    };
+}
+  
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getDashboardData: () => dispatch(getDashboardData())
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashBoard);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Switch, Route} from 'react-router-dom';
 import LoginForm from './components/loginForm/loginForm';
-import Employees from './components/employees/employees';
+import DashBoard from './components/dashBoard/DashBoard';
 
 class App extends Component {
     state = {  }
@@ -9,7 +9,7 @@ class App extends Component {
         return ( 
             <React.Fragment>
                 <Switch>
-                    <Route path='/home' component={Employees}/>
+                    <Route path='/home' component={DashBoard}/>
                     <Route path='/' exact component={LoginForm}/>
                 </Switch>
             </React.Fragment>
